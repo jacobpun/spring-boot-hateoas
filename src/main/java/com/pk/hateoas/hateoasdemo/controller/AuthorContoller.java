@@ -1,6 +1,8 @@
 package com.pk.hateoas.hateoasdemo.controller;
 
 import com.pk.hateoas.hateoasdemo.model.Author;
+import com.pk.hateoas.hateoasdemo.resource.AuthorResource;
+import com.pk.hateoas.hateoasdemo.resource.assembler.AuthorResourceAssembler;
 import com.pk.hateoas.hateoasdemo.service.AuthorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,4 +25,12 @@ public class AuthorContoller {
     public Author getById(@PathVariable Long id) {
         return this.authorService.getById(id);
     }
+
+    @GetMapping("{id}/with-links")
+    public AuthorResource getByIdWithLinks(@PathVariable Long id) {
+        Author author = this.authorService.getById(id);
+        AuthorResource resource = new AuthorResourceAssembler().toResource(author);
+        return resource;
+    }
+
 }
